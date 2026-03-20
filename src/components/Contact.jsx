@@ -9,10 +9,23 @@ export default function Contact() {
         message: ''
     })
     const [sent, setSent] = useState(false)
-    const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
-    const handleSubmit = e => {
-        e.preventDefault(); setSent(true) }
+    const [error, setError] = useState(null)
 
+    const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
+    const handleSubmit = async e => {
+        e.preventDefault()
+        try {
+          const res = await fetch('http://localhost:5000/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form)
+          })
+          if (!res.ok) throw new Error('Error al enviar el mensaje')
+          setSent(true)
+        } catch {
+          setError('Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo.')
+        }
+    }
         return (
               <div className="bg-gray-100 py-20">
       <div className="max-w-6xl mx-auto px-4">
@@ -41,6 +54,7 @@ export default function Contact() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
                   <textarea name="message" required rows={4} value={form.message} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="¿En qué te podemos ayudar?" />
                 </div>
+                {error && <p className="text-red-500 text-sm">{error}</p>}
                 <button type="submit" className="w-full bg-yellow-400 text-gray-900 font-bold py-3 rounded-lg hover:bg-yellow-300 transition-colors">Enviar mensaje</button>
               </form>
             )}

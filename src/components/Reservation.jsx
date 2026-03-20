@@ -1,10 +1,27 @@
-import { useState } from 'react'
+import {  useState } from 'react'
 
 export default function Reservation() {
   const [form, setForm] = useState({ name: '', phone: '', service: '', date: '', time: '' })
   const [sent, setSent] = useState(false)
+    const [error, setError] = useState(null)
+
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
-  const handleSubmit = e => { e.preventDefault(); setSent(true) }
+ 
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    try {
+      const res = await fetch('http://localhost:5000/api/reservations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      })
+      if (!res.ok) throw new Error('Error al enviar la reserva')
+      setSent(true)
+    } catch {
+      setError('Hubo un error al enviar tu reserva. Por favor, inténtalo de nuevo.')
+    }
+  }
 
   return (
     <div className="bg-white py-20">
@@ -53,6 +70,7 @@ export default function Reservation() {
                 </select>
               </div>
             </div>
+              {error && <p className="text-red-500 text-sm">{error}</p>}
             <button type="submit" className="w-full bg-yellow-400 text-gray-900 font-bold py-4 rounded-lg text-lg hover:bg-yellow-300 transition-colors">Confirmar reserva</button>
           </form>
         )}
