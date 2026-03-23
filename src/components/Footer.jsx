@@ -10,6 +10,8 @@ export default function Footer() {
         <span className="flex items-center gap-1"><Mail size={16} /> info@tallermec.com</span>
       </div>
       <p className="text-sm text-gray-600">© {new Date().getFullYear()} TallerMec. Todos los derechos reservados.</p>
+        
+      <a href="/login" className="text-gray-700 hover:text-gray-500 text-xs mt-2 inline-block">Acceso propietario</a>
     </footer>
   )
 }
