@@ -1,4 +1,5 @@
 import {  useState } from 'react'
+import.meta.env.VITE_API_URL
 
 export default function Reservation() {
   const [form, setForm] = useState({ name: '', phone: '', service: '', date: '', time: '' })
@@ -11,7 +12,7 @@ export default function Reservation() {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      const res = await fetch('http://localhost:5000/api/reservations', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/reservations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

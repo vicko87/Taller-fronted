@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import.meta.env.VITE_API_URL
 
 const STATUS_COLORS = {
     pendiente: 'bg-yellow-100 text-yellow-800',
@@ -12,26 +13,26 @@ export default function Admin() {
     const navigate = useNavigate()
 
     const fetchReservations = async () => {
-        const res = await fetch('http://localhost:5000/api/reservations')
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/reservations`)
         const data = await res.json()
         setReservations(data)
     }
 
 
     useEffect(() => { 
-         fetch('http://localhost:5000/api/reservations')
+         fetch(`${import.meta.env.VITE_API_URL}/reservations`)
             .then(res => res.json())
             .then(setReservations)
     }, [])
 
     const deleteReservation = async (id) => {
         if (!window.confirm('¿Eliminar esta reserva?')) return
-        await fetch(`http://localhost:5000/api/reservations/${id}`, { method: 'DELETE' })
+        await fetch(`${import.meta.env.VITE_API_URL}/reservations/${id}`, { method: 'DELETE' })
         fetchReservations()
     }
 
      const updateStatus = async (id, status) => {
-        await fetch(`http://localhost:5000/api/reservations/${id}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/reservations/${id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status })
