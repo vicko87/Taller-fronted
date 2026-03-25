@@ -1,13 +1,11 @@
-import {  useState } from 'react'
-import.meta.env.VITE_API_URL
+import { useState } from 'react'
 
 export default function Reservation() {
   const [form, setForm] = useState({ name: '', phone: '', service: '', date: '', time: '' })
   const [sent, setSent] = useState(false)
-    const [error, setError] = useState(null)
+  const [error, setError] = useState(null)
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
- 
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -19,6 +17,7 @@ export default function Reservation() {
       })
       if (!res.ok) throw new Error('Error al enviar la reserva')
       setSent(true)
+      setForm({ name: '', phone: '', service: '', date: '', time: '' })
     } catch {
       setError('Hubo un error al enviar tu reserva. Por favor, inténtalo de nuevo.')
     }
@@ -34,7 +33,15 @@ export default function Reservation() {
             <div className="text-5xl mb-4">✅</div>
             <h3 className="text-2xl font-bold mb-2">¡Solicitud enviada!</h3>
             <p>Nos pondremos en contacto contigo pronto.</p>
-            <button onClick={() => setSent(false)} className="mt-6 bg-yellow-400 text-gray-900 font-bold px-6 py-2 rounded-lg hover:bg-yellow-300">Nueva reserva</button>
+            <button
+              onClick={() => {
+                setSent(false)
+                setForm({ name: '', phone: '', service: '', date: '', time: '' })
+                setError(null)
+              }}
+              className="mt-6 bg-yellow-400 text-gray-900 font-bold px-6 py-2 rounded-lg hover:bg-yellow-300">
+              Nueva reserva
+            </button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="bg-gray-50 rounded-xl p-8 shadow space-y-4">
@@ -44,7 +51,7 @@ export default function Reservation() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono *</label>
-              <input name="phone" required value={form.phone} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="+34 600 000 000" />
+              <input type="tel" name="phone" required value={form.phone} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="+34 600 000 000" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Servicio *</label>
@@ -58,7 +65,7 @@ export default function Reservation() {
                 <option>Diagnóstico PC</option>
               </select>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Fecha *</label>
                 <input type="date" name="date" required value={form.date} onChange={handleChange} min={new Date().toISOString().split('T')[0]} className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
@@ -71,7 +78,7 @@ export default function Reservation() {
                 </select>
               </div>
             </div>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && <p className="text-red-500 text-sm">{error}</p>}
             <button type="submit" className="w-full bg-yellow-400 text-gray-900 font-bold py-4 rounded-lg text-lg hover:bg-yellow-300 transition-colors">Confirmar reserva</button>
           </form>
         )}
