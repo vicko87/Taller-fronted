@@ -61,7 +61,7 @@ export default function Contact() {
             )}
           </div>
           <div className="space-y-6">
-           // En la sección de info reemplaza los párrafos con:
+     
           <p className="flex items-center gap-3 text-gray-700"><MapPin size={20} className="text-yellow-500" /> Calle Principal 123, Tu Ciudad</p>
           <p className="flex items-center gap-3 text-gray-700"><Phone size={20} className="text-yellow-500" /> +34 600 000 000</p>
           <p className="flex items-center gap-3 text-gray-700"><Mail size={20} className="text-yellow-500" /> info@tallermec.com</p>
