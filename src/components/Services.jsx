@@ -17,7 +17,7 @@ export default function Services () {
         <p className="text-center text-gray-600 mb-12 text-lg">Todo lo que tu vehículo necesita en un solo lugar</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
            {services.map(s => (
-            <div key={s.name} className="bg-white rounded-xl shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-300">   
+         <div key={s.name} className="bg-white rounded-xl shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-300 p-6">     
               <div className="mb-4">{s.icon}</div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">{s.name}</h3>
               <p className="text-gray-500 mb-4">{s.desc}</p>
